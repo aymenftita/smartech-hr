@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Survey Platform API Docs</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #f5f5f5; padding: 2rem; }
+    h1 { text-align: center; }
+    section {
+      background: #fff;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.05);
+    }
+    h2 { margin-top: 0; color: #003366; }
+    .method { font-weight: bold; padding: 0.2rem 0.6rem; border-radius: 5px; color: white; }
+    .GET { background: #28a745; }
+    .POST { background: #007bff; }
+    .PUT { background: #ffc107; color: black; }
+    .DELETE { background: #dc3545; }
+    pre {
+      background: #f0f0f0;
+      padding: 1rem;
+      border-radius: 5px;
+      overflow-x: auto;
+    }
+    .endpoint { font-weight: bold; }
+    .divider { margin: 1rem 0; border-bottom: 1px solid #ccc; }
+  </style>
+</head>
+<body>
+
+<h1>📘 Survey Platform API Documentation</h1>
+
+<section>
+  <h2>🔹 Employee</h2>
+
+  <div><span class="method GET">GET</span> <span class="endpoint">/api/v1/employee</span> — Get all employees</div>
+  <pre>[
+  {
+    "id": 1,
+    "name": "John Doe",
+    "email": "john@example.com",
+    "passwordHash": "****"
+  }
+]</pre>
+
+  <div><span class="method GET">GET</span> <span class="endpoint">/api/v1/employee/{id}</span> — Get employee by ID</div>
+  <pre>{
+  "id": 1,
+  "name": "John Doe",
+  "email": "john@example.com",
+  "passwordHash": "****"
+}</pre>
+
+  <div><span class="method POST">POST</span> <span class="endpoint">/api/v1/employee</span> — Create a new employee</div>
+  <pre>{
+  "name": "Jane Smith",
+  "email": "jane@example.com",
+  "passwordHash": "hashed_password"
+}</pre>
+
+  <div><span class="method DELETE">DELETE</span> <span class="endpoint">/api/v1/employee/{id}</span> — Delete employee</div>
+</section>
+
+<section>
+  <h2>🔹 Survey</h2>
+
+  <div><span class="method GET">GET</span> /api/v1/survey</div>
+  <pre>[
+  {
+    "id": 1,
+    "title": "Monthly Check-in",
+    "description": "Survey for June"
+  }
+]</pre>
+
+  <div><span class="method GET">GET</span> /api/v1/survey/{id}</div>
+  <pre>{
+  "id": 1,
+  "title": "Monthly Check-in",
+  "description": "Survey for June"
+}</pre>
+
+  <div><span class="method POST">POST</span> /api/v1/survey</div>
+  <pre>{
+  "title": "Team Feedback Survey",
+  "description": "Quarterly feedback collection"
+}</pre>
+
+  <div><span class="method PUT">PUT</span> /api/v1/survey/{id}</div>
+  <pre>{
+  "title": "Updated Title",
+  "description": "New updated description"
+}</pre>
+
+  <div><span class="method DELETE">DELETE</span> /api/v1/survey/{id}</div>
+</section>
+
+<section>
+  <h2>🔹 Question</h2>
+
+  <div><span class="method GET">GET</span> /api/v1/questions</div>
+  <pre>[
+  {
+    "id": 1,
+    "text": "How satisfied are you?",
+    "survey": { "id": 1 }
+  }
+]</pre>
+
+  <div><span class="method GET">GET</span> /api/v1/questions/survey/{surveyId}</div>
+  <pre>[
+  {
+    "id": 2,
+    "text": "Do you feel productive?",
+    "survey": { "id": 1 }
+  }
+]</pre>
+
+  <div><span class="method POST">POST</span> /api/v1/questions</div>
+  <pre>{
+  "text": "Do you enjoy your work environment?",
+  "survey": { "id": 1 }
+}</pre>
+</section>
+
+<section>
+  <h2>🔹 Response</h2>
+
+  <div><span class="method GET">GET</span> /api/v1/responses</div>
+  <pre>[
+  {
+    "id": 1,
+    "submittedAt": "2025-06-23T12:00:00",
+    "employee": { "id": 1 },
+    "survey": { "id": 1 },
+    "answers": [...]
+  }
+]</pre>
+
+  <div><span class="method GET">GET</span> /api/v1/responses/{id}</div>
+  <pre>{
+  "id": 1,
+  "employee": { "id": 1 },
+  "survey": { "id": 1 },
+  "submittedAt": "2025-06-23T12:00:00",
+  "answers": [...]
+}</pre>
+
+  <div><span class="method POST">POST</span> /api/v1/responses</div>
+  <pre>{
+  "employee": { "id": 1 },
+  "survey": { "id": 1 },
+  "answers": [
+    { "question": { "id": 2 }, "rating": 9 },
+    { "question": { "id": 3 }, "rating": 8 }
+  ]
+}</pre>
+</section>
+
+<section>
+  <h2>🔹 Answer</h2>
+
+  <div><span class="method GET">GET</span> /api/v1/answers</div>
+  <pre>[
+  {
+    "id": 1,
+    "rating": 9,
+    "question": { "id": 2 },
+    "response": { "id": 1 }
+  }
+]</pre>
+
+  <div><span class="method GET">GET</span> /api/v1/answers/{id}</div>
+  <pre>{
+  "id": 1,
+  "rating": 9,
+  "question": { "id": 2 },
+  "response": { "id": 1 }
+}</pre>
+
+  <div><span class="method POST">POST</span> /api/v1/answers</div>
+  <pre>{
+  "rating": 10,
+  "question": { "id": 3 },
+  "response": { "id": 1 }
+}</pre>
+</section>
+
+<section>
+  <h2>🔹 Task</h2>
+
+  <div><span class="method POST">POST</span> /api/v1/tasks/assign — Assign tasks to operators</div>
+  <pre>{
+  "supervisorId": 1,
+  "operatorIds": [2, 3],
+  "tasks": [
+    { "description": "Check inventory" },
+    { "description": "Review safety protocols" }
+  ],
+  "weekStart": "2025-06-24"
+}</pre>
+
+  <div><span class="method PUT">PUT</span> /api/v1/tasks/{taskId}/done — Mark task as done</div>
+  <pre>No body required. Just call with taskId in URL.</pre>
+
+  <div><span class="method POST">POST</span> /api/v1/tasks/reassign?weekStart=YYYY-MM-DD</div>
+  <pre>POST with query param:
+?weekStart=2025-06-24
+
+No body required.</pre>
+</section>
+
+</body>
+</html>
