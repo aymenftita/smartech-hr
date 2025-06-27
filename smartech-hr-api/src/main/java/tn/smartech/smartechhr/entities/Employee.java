@@ -2,6 +2,7 @@ package tn.smartech.smartechhr.entities;
 
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -27,9 +28,16 @@ public class Employee {
     @Enumerated(EnumType.STRING)
     private RoleType role;
 
+    @OneToMany
+    @JsonIgnore
+    private List<Task> tasks;
+
+    @OneToMany(mappedBy = "operator")
+    private List<WeeklyScore> scores = new ArrayList<>();
 
 
     @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<Response> responses;
 
     public int getId() {
@@ -80,4 +88,19 @@ public class Employee {
         this.responses = responses;
     }
 
+    public List<Task> getTasks() {
+        return tasks;
+    }
+
+    public void setTasks(List<Task> tasks) {
+        this.tasks = tasks;
+    }
+
+    public List<WeeklyScore> getScores() {
+        return scores;
+    }
+
+    public void setScores(List<WeeklyScore> scores) {
+        this.scores = scores;
+    }
 }

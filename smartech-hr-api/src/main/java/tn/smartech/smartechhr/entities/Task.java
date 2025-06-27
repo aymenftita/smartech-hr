@@ -3,66 +3,40 @@ package tn.smartech.smartechhr.entities;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.List;
-
-
+@Setter
+@Getter
+@Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
+@Builder
 public class Task {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private int id;
 
-    private String title;
-
-    @Column(columnDefinition = "TEXT")
     private String description;
 
-    @Column(name = "estimated_days")
-    private int estimatedDays;
+    @ManyToOne
+    @JoinColumn(name = "employee_id")
+    private Employee employee;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "operator_id")
-    private Employee operator;
+    private int weekNumber;
+    private int dayOfWeek;
 
-    @Column(name = "week_start")
-    private LocalDate weekStart; // Use as the weekly grouping reference
+    @Enumerated(EnumType.STRING)
+    private TaskStatus status;
 
-    @Column(name = "is_done")
-    private boolean isDone = false;
+    @ManyToOne
+    @JoinColumn(name = "assigned_by")
+    private Employee assignedBy;
 
-    @Column(name = "is_reported")
-    private boolean isReported = false;
-
-    @Column(name = "created_at")
-    private LocalDateTime createdAt = LocalDateTime.now();
-
-    @Column(name = "updated_at")
-    private LocalDateTime updatedAt = LocalDateTime.now();
-
-    @PreUpdate
-    public void setUpdatedAt() {
-        this.updatedAt = LocalDateTime.now();
-    }
-
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
     }
 
     public String getDescription() {
@@ -73,60 +47,52 @@ public class Task {
         this.description = description;
     }
 
-    public int getEstimatedDays() {
-        return estimatedDays;
+    public Employee getEmployee() {
+        return employee;
     }
 
-    public void setEstimatedDays(int estimatedDays) {
-        this.estimatedDays = estimatedDays;
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
     }
 
-    public Employee getOperator() {
-        return operator;
+    public int getWeekNumber() {
+        return weekNumber;
     }
 
-    public void setOperator(Employee operator) {
-        this.operator = operator;
+    public void setWeekNumber(int weekNumber) {
+        this.weekNumber = weekNumber;
     }
 
-    public LocalDate getWeekStart() {
-        return weekStart;
+    public int getDayOfWeek() {
+        return dayOfWeek;
     }
 
-    public void setWeekStart(LocalDate weekStart) {
-        this.weekStart = weekStart;
+    public void setDayOfWeek(int dayOfWeek) {
+        this.dayOfWeek = dayOfWeek;
     }
 
-    public boolean isDone() {
-        return isDone;
+    public TaskStatus getStatus() {
+        return status;
     }
 
-    public void setDone(boolean done) {
-        isDone = done;
+    public void setStatus(TaskStatus status) {
+        this.status = status;
     }
 
-    public boolean isReported() {
-        return isReported;
+    public Employee getAssignedBy() {
+        return assignedBy;
     }
 
-    public void setReported(boolean reported) {
-        isReported = reported;
+    public void setAssignedBy(Employee assignedBy) {
+        this.assignedBy = assignedBy;
     }
 
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public LocalDateTime getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(LocalDateTime updatedAt) {
-        this.updatedAt = updatedAt;
+    public Task(String description, Employee employee, int weekNumber, int dayOfWeek, TaskStatus status, Employee assignedBy) {
+        this.description = description;
+        this.employee = employee;
+        this.weekNumber = weekNumber;
+        this.dayOfWeek = dayOfWeek;
+        this.status = status;
+        this.assignedBy = assignedBy;
     }
 }
-

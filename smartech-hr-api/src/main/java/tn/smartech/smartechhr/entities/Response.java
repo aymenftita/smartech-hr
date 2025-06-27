@@ -31,6 +31,7 @@ public class Response {
     private LocalDateTime submittedAt = LocalDateTime.now();
 
     @OneToMany(mappedBy = "response", cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<Answer> answers;
 
     public Long getId() {

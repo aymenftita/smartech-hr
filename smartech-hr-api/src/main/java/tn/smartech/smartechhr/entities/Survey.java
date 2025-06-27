@@ -25,6 +25,7 @@ public class Survey {
     private LocalDateTime createdAt = LocalDateTime.now();
 
     @OneToMany(mappedBy = "survey", cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<Question> questions = new ArrayList<>();
 
 

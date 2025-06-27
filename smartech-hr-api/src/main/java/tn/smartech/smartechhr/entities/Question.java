@@ -1,4 +1,5 @@
 package tn.smartech.smartechhr.entities;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -26,6 +27,7 @@ public class Question {
     private String text;
 
     @OneToMany(mappedBy = "question", cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<Answer> answers = new ArrayList<>();
 
     public Long getId() {

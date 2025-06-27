@@ -1,34 +1,37 @@
 package tn.smartech.smartechhr.entities;
 
 import jakarta.persistence.*;
+import lombok.*;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-
-
+@Setter
+@Getter
 @Entity
-@Table(name = "weekly_scores")
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class WeeklyScore {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private int id;
 
     @ManyToOne
+    @JoinColumn(name = "operator_id")
     private Employee operator;
 
-    private LocalDate weekStart;
+    @OneToOne
+    private WeeklyAssignment week;
+    private double score;
 
-    private int score; // sum of estimatedDays of done tasks
+    @ManyToOne
+    @JoinColumn(name = "evaluated_by")
+    private Employee evaluatedBy;
 
-    @Column(name = "generated_at")
-    private LocalDateTime generatedAt = LocalDateTime.now();
-
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -40,28 +43,26 @@ public class WeeklyScore {
         this.operator = operator;
     }
 
-    public LocalDate getWeekStart() {
-        return weekStart;
-    }
 
-    public void setWeekStart(LocalDate weekStart) {
-        this.weekStart = weekStart;
-    }
-
-    public int getScore() {
+    public double getScore() {
         return score;
     }
 
-    public void setScore(int score) {
+    public void setScore(double score) {
         this.score = score;
     }
 
-    public LocalDateTime getGeneratedAt() {
-        return generatedAt;
+    public Employee getEvaluatedBy() {
+        return evaluatedBy;
     }
 
-    public void setGeneratedAt(LocalDateTime generatedAt) {
-        this.generatedAt = generatedAt;
+    public void setEvaluatedBy(Employee evaluatedBy) {
+        this.evaluatedBy = evaluatedBy;
+    }
+
+    public WeeklyScore(Employee operator, double score, Employee evaluatedBy) {
+        this.operator = operator;
+        this.score = score;
+        this.evaluatedBy = evaluatedBy;
     }
 }
-
